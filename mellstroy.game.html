@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mellstroy Casino - Гороскоп Удачи</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460); color: gold; font-family: Arial; min-height: 100vh; }
+        .navbar { background: rgba(0,0,0,0.8); padding: 1rem 0; border-bottom: 2px solid gold; }
+        .nav-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 2rem; }
+        .logo { font-size: 1.8rem; font-weight: bold; text-shadow: 0 0 10px orange; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { color: gold; text-decoration: none; transition: all 0.3s ease; }
+        .nav-links a:hover { text-shadow: 0 0 10px orange; transform: scale(1.1); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .main-page { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; text-align: center; }
+        .hero { margin-bottom: 3rem; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; text-shadow: 0 0 20px orange; }
+        .hero p { font-size: 1.2rem; opacity: 0.9; }
+        .horoscope-section { background: rgba(0,0,0,0.6); padding: 3rem; border-radius: 20px; border: 2px solid gold; box-shadow: 0 0 30px rgba(255,215,0,0.3); max-width: 600px; }
+        .horoscope { font-size: 1.8rem; margin: 2rem 0; min-height: 100px; display: flex; align-items: center; justify-content: center; text-shadow: 0 0 15px orange; }
+        button { background: linear-gradient(45deg, #ffd700, #ff6b00); color: black; padding: 15px 40px; border: none; border-radius: 10px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: all 0.3s ease; }
+        button:hover { transform: scale(1.05); box-shadow: 0 0 20px orange; }
+        .about-page, .contacts-page { display: none; }
+        
+        /* СТИЛИ ДЛЯ СТРАНИЦЫ "О КАЗИНО" - БЕЛЫЙ ТЕКСТ */
+        .about-content { 
+            background: rgba(0,0,0,0.6); 
+            padding: 3rem; 
+            border-radius: 20px; 
+            border: 2px solid gold; 
+            line-height: 1.8;
+            color: white;
+        }
+        .about-content h2 { 
+            color: #ffd700; 
+            margin-bottom: 1.5rem; 
+            text-align: center; 
+            font-size: 2.2rem; 
+        }
+        .about-content h3 { 
+            color: #ffd700;
+            margin: 2rem 0 1rem 0; 
+            font-size: 1.5rem; 
+        }
+        .about-content p { 
+            margin-bottom: 1rem; 
+            font-size: 1.1rem;
+            color: white;
+        }
+        .about-content strong {
+            color: #ffd700;
+        }
+        
+        .feature-list { 
+            list-style: none; 
+            padding-left: 1rem;
+            color: white;
+        }
+        .feature-list li { 
+            margin-bottom: 0.8rem; 
+            position: relative; 
+            padding-left: 2rem;
+            color: white;
+        }
+        .feature-list li:before { content: "🎰"; position: absolute; left: 0; }
+        
+        .contacts-section { max-width: 500px; text-align: center; }
+        .social-link { display: inline-flex; align-items: center; gap: 1rem; background: linear-gradient(45deg, #ff6b00, #ffd700); color: black; padding: 1.5rem 3rem; border-radius: 15px; text-decoration: none; font-weight: bold; font-size: 1.5rem; transition: all 0.3s ease; margin-top: 2rem; }
+        .social-link:hover { transform: scale(1.1); box-shadow: 0 0 25px orange; }
+
+        /* КРАСИВЫЙ ФУТЕР */
+        .footer {
+            background: linear-gradient(45deg, #000000, #1a1a2e);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 3px solid gold;
+            box-shadow: 0 -5px 20px rgba(255,215,0,0.2);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: gold;
+            text-shadow: 0 0 10px orange;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-text {
+            color: #ffd700;
+            font-size: 1rem;
+            margin: 0.3rem 0;
+        }
+
+        .warning-text {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+            text-shadow: 0 0 5px rgba(255,0,0,0.5);
+        }
+
+        .footer-decoration {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+            opacity: 0.7;
+        }
+
+        .decoration-item {
+            font-size: 1.2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .decoration-item:nth-child(2) { animation-delay: 0.5s; }
+        .decoration-item:nth-child(3) { animation-delay: 1s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes glow { 0% { text-shadow: 0 0 10px orange; } 50% { text-shadow: 0 0 20px red, 0 0 30px orange; } 100% { text-shadow: 0 0 10px orange; } }
+        .glowing-text { animation: glow 2s infinite; }
+        @media (max-width: 768px) { .nav-container { flex-direction: column; gap: 1rem; } .hero h1 { font-size: 2rem; } .horoscope { font-size: 1.4rem; } .about-content, .contacts-section { padding: 1.5rem; } .social-link { font-size: 1.2rem; padding: 1rem 2rem; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">MELLSTROY.GAME</div>
+            <div class="nav-links">
+                <a href="#" onclick="showPage('main')">Гороскоп</a>
+                <a href="#" onclick="showPage('about')">О казино</a>
+                <a href="#" onclick="showPage('contacts')">Контакты</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="main-page" id="mainPage">
+            <section class="hero">
+                <h1 class="glowing-text">🎰 ГОРОСКОП УДАЧИ 🎰</h1>
+                <p>Узнай, ждет ли тебя выигрыш сегодня!</p>
+            </section>
+            <section class="horoscope-section">
+                <div class="horoscope" id="result">Нажми на кнопку, чтобы узнать предсказание</div>
+                <div style="text-align: center;"><button onclick="generateHoroscope()">УЗНАТЬ СВОЮ УДАЧУ</button></div>
+            </section>
+        </div>
+        <div class="about-page" id="aboutPage">
+            <div class="about-content">
+                <h2>🎯 О КАЗИНО MELLSTROY.GAME</h2>
+                
+                <p><strong>Mellstroy.game</strong> - это премиальная азартная платформа, созданная при участии известного стримера и медийной личности Андрея Бурима (Mellstroy). Казино сочетает в себе современные технологии, высокий уровень безопасности и уникальный игровой опыт.</p>
+
+                <h3>🌟 ОСОБЕННОСТИ ПЛАТФОРМЫ</h3>
+                <ul class="feature-list">
+                    <li><strong>Лицензионные игры</strong> от ведущих провайдеров</li>
+                    <li><strong>Мгновенные выплаты</strong> без задержек и скрытых комиссий</li>
+                    <li><strong>Уникальные бонусы</strong> от лица Mellstroy</li>
+                    <li><strong>Круглосуточная поддержка</strong> на русском языке</li>
+                    <li><strong>Мобильная версия</strong> для игры с любого устройства</li>
+                    <li><strong>Регулярные турниры</strong> с крупными призовыми фондами</li>
+                </ul>
+
+                <h3>🎮 ИГРОВАЯ КОЛЛЕКЦИЯ</h3>
+                <p>На платформе представлены сотни лицензионных игровых автоматов от таких провайдеров как NetEnt, Microgaming, Play'n GO, Yggdrasil и других. Здесь вы найдете как классические слоты, так и современные игры с 3D-графикой, бонусными раундами и прогрессивными джекпотами.</p>
+
+                <h3>🔒 БЕЗОПАСНОСТЬ И НАДЕЖНОСТЬ</h3>
+                <p>Mellstroy.game работает по международной лицензии, обеспечивая полную безопасность финансовых операций и защиту персональных данных игроков. Все транзакции защищены SSL-шифрованием, а честность игр регулярно проверяется независимыми аудиторами.</p>
+
+                <h3>💎 ЭКСКЛЮЗИВНЫЕ АКЦИИ</h3>
+                <p>Благодаря участию Mellstroy, казино регулярно проводит уникальные акции, которых нет у других операторов. Специальные розыгрыши, увеличенные кэшбэки и персональные бонусы делают игровой процесс еще более увлекательным.</p>
+            </div>
+        </div>
+        <div class="contacts-page" id="contactsPage">
+            <div class="contacts-section">
+                <h2>📱 КОНТАКТЫ MELLSTROY</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">Единственный официальный аккаунт</p>
+                <a href="https://www.tiktok.com/@glavstroy?_t=ZS-90hvsKkZcsW&_r=1 " target="_blank" class="social-link">📹 TikTok Mellstroy</a>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">MELLSTROY.GAME</div>
+            <div class="footer-text">Mellstroy Casino © 2024 | Играйте ответственно</div>
+            <div class="warning-text">18+ | Помните, что азартные игры могут вызывать зависимость</div>
+            <div class="footer-decoration">
+                <div class="decoration-item">🎰</div>
+                <div class="decoration-item">💰</div>
+                <div class="decoration-item">🎯</div>
+            </div>
+        </div>
+    </footer>
+    <script>
+        const predictions = [
+            "🎯 Сегодня твой джекпот в MELSTROY.GAME! Удача на твоей стороне!",
+            "💰 Mellstroy предсказывает тебе крупный выигрыш! Не упусти момент!",
+            "⭐ Удача улыбается тебе сегодня - делай ставку в нужный момент!",
+            "🔥 Звезды советуют играть в MELSTROY CASINO - сегодня твой день!",
+            "💎 Твой выигрышный день - доверься интуиции и сорви куш!",
+            "🎰 Сегодня Фортуна с тобой! Mellstroy благословляет твои ставки!",
+            "💫 Вращай барабаны - сегодняшний день принесет неожиданный выигрыш!",
+            "🏆 Ты под защитой азартных богов! Крупный куш уже близко!"
+        ];
+
+        function generateHoroscope() {
+            const randomPrediction = predictions[Math.floor(Math.random() * predictions.length)];
+            document.getElementById('result').innerHTML = randomPrediction;
+            
+            document.getElementById('result').style.animation = 'glow 1s ease-in-out';
+            setTimeout(() => {
+                document.getElementById('result').style.animation = '';
+            }, 1000);
+        }
+
+        function showPage(page) {
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('aboutPage').style.display = 'none';
+            document.getElementById('contactsPage').style.display = 'none';
+            
+            if (page === 'main') {
+                document.getElementById('mainPage').style.display = 'flex';
+            } else if (page === 'about') {
+                document.getElementById('aboutPage').style.display = 'block';
+            } else if (page === 'contacts') {
+                document.getElementById('contactsPage').style.display = 'flex';
+            }
+        }
+
+        window.onload = function() {
+            showPage('main');
+        };
+
+        // Изменяем заголовок страницы
+        document.title = "Mellstroy Casino - Гороскоп Удачи";
+    </script>
+</body>
+</html>
